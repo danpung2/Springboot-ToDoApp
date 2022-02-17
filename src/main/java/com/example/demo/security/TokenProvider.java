@@ -14,14 +14,14 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenProvider {
-    private static final String SECRET_KEY = "secretKeytestauthorizationjwtmanagetokensecretKey";
+    private static final String SECRET_KEY = "NMA8JPctFuna59f5";
 
     public String create(UserEntity userEntity){
         Date expiryDate = Date.from(
                 Instant.now()
                         .plus(1, ChronoUnit.DAYS)
         );
-        return Jwts.builder().signWith(SignatureAlgorithm.HS256, SECRET_KEY).setSubject(userEntity.getId()).setIssuer("demo app").setIssuedAt(new Date()).setExpiration(expiryDate).compact();
+        return Jwts.builder().signWith(SignatureAlgorithm.HS512, SECRET_KEY).setSubject(userEntity.getId()).setIssuer("demo app").setIssuedAt(new Date()).setExpiration(expiryDate).compact();
     }
 
     public String validateAndGetUserId(String token){
