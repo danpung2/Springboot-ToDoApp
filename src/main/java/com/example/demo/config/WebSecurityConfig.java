@@ -18,18 +18,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable();
         http.cors()
                 .and()
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests()
+                .csrf()
+                .disable()
+                .httpBasic()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
                 .antMatchers("/", "/auth/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest() // /와 /auth/**이외의 모든 경로는 인증 해야됨.
+                .authenticated();
 
         http.addFilterAfter(
                 jwtAuthenticationFilter,
                 CorsFilter.class
-        );
-    }
+        );    }
 }
